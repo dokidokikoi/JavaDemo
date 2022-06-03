@@ -1,7 +1,9 @@
 package com.harukaze.costume.app;
 
+import com.harukaze.costume.common.utils.RedisUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @PackageName: com.harukaze.app

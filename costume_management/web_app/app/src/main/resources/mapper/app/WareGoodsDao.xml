@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.harukaze.costume.app.dao.WareGoodsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.harukaze.costume.app.entity.WareGoodsEntity" id="wareGoodsMap">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="amount" column="amount"/>
+        <result property="stats" column="stats"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="wareId" column="ware_id"/>
+        <result property="goodsId" column="goods_id"/>
+    </resultMap>
+
+
+</mapper>
