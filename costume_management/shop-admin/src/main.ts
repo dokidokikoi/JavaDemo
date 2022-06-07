@@ -4,12 +4,17 @@ import router from './router'
 import { store, key } from './store'
 import './styles/index.scss'
 import elementPlus from './plugins/element-plus'
-import 'virtual:svg-icons-register'
-import svgIcon from './components/SvgIcon.vue' // 全局svg图标组件
 
-createApp(App)
-  .use(store, key)
-  .use(router)
+const app = createApp(App)
+
+app.use(store, key)
   .use(elementPlus)
-  .component('svg-icon', svgIcon)
-  .mount('#app')
+  .use(router)
+
+// 自动注册全局组件
+const modules = import.meta.globEager('./components/**/index.ts')
+for (const path in modules) {
+  app.use(modules[path].default)
+}
+
+app.mount('#app')

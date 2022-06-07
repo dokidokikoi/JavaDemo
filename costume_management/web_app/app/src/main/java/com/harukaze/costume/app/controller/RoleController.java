@@ -3,12 +3,13 @@ package com.harukaze.costume.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.harukaze.costume.app.vo.RoleVo;
+import com.harukaze.costume.common.valid.AddGroup;
+import com.harukaze.costume.common.valid.UpdateGroup;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.harukaze.costume.app.entity.RoleEntity;
 import com.harukaze.costume.app.service.RoleService;
@@ -33,29 +34,29 @@ public class RoleController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = roleService.queryPage(params);
+    @GetMapping("/list")
+    public R list(@RequestBody Map<String, Object> params){
+        PageUtils page = roleService.listRolePage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		RoleEntity role = roleService.getById(id);
+        RoleVo role = roleService.getRoleById(id);
 
-        return R.ok().put("role", role);
+        return R.ok().put("data", role);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody RoleEntity role){
+    @PostMapping("/save")
+    public R save(@Validated(AddGroup.class) @RequestBody RoleEntity role){
 		roleService.save(role);
 
         return R.ok();
@@ -64,8 +65,8 @@ public class RoleController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody RoleEntity role){
+    @PutMapping("/update")
+    public R update(@Validated(UpdateGroup.class) @RequestBody RoleEntity role){
 		roleService.updateById(role);
 
         return R.ok();
@@ -74,9 +75,9 @@ public class RoleController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		roleService.removeByIds(Arrays.asList(ids));
+    @PostMapping("/set_state")
+    public R delete(@RequestBody Map<String, Object> params){
+		roleService.setStateByIds(params);
 
         return R.ok();
     }

@@ -16,5 +16,7 @@ import java.util.Map;
 public interface PermissionService extends IService<PermissionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils listPermissionPage(Map<String, Object> params);
 }
 

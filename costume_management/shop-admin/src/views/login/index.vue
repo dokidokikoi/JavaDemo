@@ -161,17 +161,14 @@ const checkCapslock = (e: { key: any; }) => {
 
 // 获取验证码
 const loadCaptcha = () => {
-  getCaptcha().then((res: { imgCode: string; key: string }) => {
-    captchaSrc.value = res.imgCode
-    loginForm.key = res.key
+  getCaptcha().then((res: any) => {
+    captchaSrc.value = res.data.imgCode
+    loginForm.key = res.data.key
   })
 }
 
 onMounted(() => {
-  getCaptcha().then((res: { imgCode: string; key: string }) => {
-    captchaSrc.value = res.imgCode
-    loginForm.key = res.key
-  })
+  loadCaptcha()
 })
 
 // 登录
@@ -199,8 +196,8 @@ const handleLogin = async () => {
 
   // 存储登录用户信息
   store.commit('setUser', {
-    user_info: { ...data.user_info },
-    token: data.token
+    user_info: { ...data.data.user_info },
+    token: data.data.token
   })
 
   // store.commit('setMenus', data.menus)
@@ -296,13 +293,6 @@ $light_gray:#eee;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
-  }
-
-  .icon {
-    width: 25px;
-    height: 25px;
-    margin-top: 7px;
-    margin-left: 10px;
   }
 
   .title-container {

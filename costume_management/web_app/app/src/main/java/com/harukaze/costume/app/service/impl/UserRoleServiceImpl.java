@@ -1,6 +1,9 @@
 package com.harukaze.costume.app.service.impl;
 
+import com.harukaze.costume.app.entity.RoleEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -24,6 +27,20 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleDao, UserRoleEntity
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<RoleEntity> listRole(Long userId) {
+
+        return this.baseMapper.selectRoleList(userId);
+    }
+
+    @Override
+    public void removeUserRole(Map<String, Object> params) {
+        Long roleId = Long.parseLong((String) params.get("roleId"));
+        Long userId = Long.parseLong((String) params.get("userId"));
+
+        this.baseMapper.deleteUserRole(roleId, userId);
     }
 
 }

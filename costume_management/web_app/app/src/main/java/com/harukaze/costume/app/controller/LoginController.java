@@ -30,7 +30,6 @@ public class LoginController {
 
     @PostMapping("login")
     public R login(@RequestBody LoginParam loginParam) {
-        System.out.println("ssss");
         return loginService.login(loginParam);
     }
 

@@ -3,12 +3,11 @@ package com.harukaze.costume.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.harukaze.costume.common.valid.AddGroup;
+import com.harukaze.costume.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.harukaze.costume.app.entity.PermissionEntity;
 import com.harukaze.costume.app.service.PermissionService;
@@ -33,29 +32,29 @@ public class PermissionController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = permissionService.queryPage(params);
+        PageUtils page = permissionService.listPermissionPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		PermissionEntity permission = permissionService.getById(id);
 
-        return R.ok().put("permission", permission);
+        return R.ok().put("data", permission);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody PermissionEntity permission){
+    @PostMapping("/save")
+    public R save(@Validated(AddGroup.class) @RequestBody PermissionEntity permission){
 		permissionService.save(permission);
 
         return R.ok();
@@ -64,8 +63,8 @@ public class PermissionController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody PermissionEntity permission){
+    @PutMapping("/update")
+    public R update(@Validated(UpdateGroup.class) @RequestBody PermissionEntity permission){
 		permissionService.updateById(permission);
 
         return R.ok();
@@ -74,7 +73,7 @@ public class PermissionController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		permissionService.removeByIds(Arrays.asList(ids));
 

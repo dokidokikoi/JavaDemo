@@ -11,8 +11,11 @@ const request = axios.create({
 request.interceptors.request.use(function (config) {
   // 统一设置用户身份 token
   const user = store.state.user
-  if (user && user.token && config && config.headers) {
-    config.headers.Authorization = user.token
+  if (config && config.headers) {
+    config.headers['Content-Type'] = 'application/json'
+    if (user && user.token) {
+      config.headers.Authorization = user.token
+    }
   }
   return config
 }, function (error) {
@@ -24,10 +27,14 @@ let isRefresh = false
 // 响应拦截器
 request.interceptors.response.use(function (response) {
   // 统一处理接口响应数据，比如 token 过期无效、服务端异常等
-
+  if (response.status !== 200) {
+    console.log(response.status)
+    ElMessage.error('请求失败，请稍后重试')
+    return Promise.reject(response)
+  }
   // 请求正常，返回数据
   const status = response.data.code
-  if (status || status === 200) {
+  if ((!status || status === 200)) {
     return response
   }
 
@@ -62,7 +69,11 @@ request.interceptors.response.use(function (response) {
 export default <T = any>(config: AxiosRequestConfig) => {
   return request(config).then(
     res => {
-      return res.data as T
+      return {
+        msg: res.data.msg,
+        data: res.data.data as T,
+        code: res.data.code
+      }
     }
   )
 }

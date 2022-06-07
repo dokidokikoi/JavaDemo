@@ -10,6 +10,7 @@ import com.harukaze.costume.app.service.UserService;
 import com.harukaze.costume.app.util.UserThreadLocal;
 import com.harukaze.costume.app.vo.UserVo;
 import com.harukaze.costume.common.constant.ResponseStatus;
+import com.harukaze.costume.common.constant.UserConstant;
 import com.harukaze.costume.common.utils.JwtUtils;
 import com.harukaze.costume.common.utils.R;
 import com.harukaze.costume.common.utils.RedisUtil;
@@ -62,7 +63,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                         UserEntity user = userService.getOne(
                                 new LambdaQueryWrapper<UserEntity>()
                                         .eq(UserEntity::getAccount, username));
-                        if (user != null) {
+                        if (user != null && user.getState() == UserConstant.Status.USER_UP.getCode()) {
                             UserVo userVo = userService.toVo(user);
                             UserThreadLocal.set(userVo);
                             return true;

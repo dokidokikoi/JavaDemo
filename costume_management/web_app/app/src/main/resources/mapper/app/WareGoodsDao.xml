@@ -6,15 +6,27 @@
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.harukaze.costume.app.entity.WareGoodsEntity" id="wareGoodsMap">
         <result property="id" column="id"/>
-        <result property="userName" column="user_name"/>
-        <result property="goodsName" column="goods_name"/>
         <result property="amount" column="amount"/>
-        <result property="stats" column="stats"/>
         <result property="createDate" column="create_date"/>
         <result property="updateDate" column="update_date"/>
         <result property="wareId" column="ware_id"/>
         <result property="goodsId" column="goods_id"/>
     </resultMap>
 
-
+    <select id="selectWareGoodsByPage" resultType="WareGoodsEntity">
+        select wg.id, wg.amount, wg.create_date, wg.update_date, wg.ware_id, wg.goods_id
+        from hk_goods g, hk_ware w, hk_ware_goods wg
+        <where>
+            and g.id = wg.goods_id AND w.id = wg.ware_id
+            <if test="key != null">
+                and (g.name = #{key} OR g.name LIKE CONCAT('%',#{key},'%'))
+            </if>
+            <if test="wareAddress != null">
+                AND w.address LIKE CONCAT('%',#{wareAddress},'%')
+            </if>
+            <if test="orderBy != null">
+                order by g.price desc
+            </if>
+        </where>
+    </select>
 </mapper>

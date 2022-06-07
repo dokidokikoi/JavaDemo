@@ -5,6 +5,7 @@ import { setItem, getItem } from '@/utils/storage'
 
 // 为 store state 声明类型
 const state = {
+  isCollapse: false,
   user: getItem<{ token: string } & IUserInfo>('user')
 }
 
@@ -16,6 +17,9 @@ export const key: InjectionKey<Store<State>> = Symbol('store')
 export const store = createStore<State>({
   state,
   mutations: {
+    setIsCollapse (state, flag) {
+      state.isCollapse = flag
+    },
     setUser (state, playload) {
       state.user = playload
       setItem('user', state.user)

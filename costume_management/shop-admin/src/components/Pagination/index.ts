@@ -1,4 +1,4 @@
-import { App } from '@vue/runtime-dom'
+import { App } from 'vue'
 import Component from './index.vue'
 
 export default {

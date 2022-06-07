@@ -26,35 +26,21 @@
         <el-icon><WindPower /></el-icon>
         商品分类
       </el-menu-item>
-      <el-menu-item index="/product/product_attr">
-        <el-icon><WindPower /></el-icon>
-        商品规格
-      </el-menu-item>
-      <el-menu-item index="/product/product_reply">
-        <el-icon><WindPower /></el-icon>
-        商品评论
-      </el-menu-item>
     </el-sub-menu>
-    <el-sub-menu index="/order">
+    <el-sub-menu index="/ware">
       <template #title>
         <el-icon><Folder /></el-icon>
-        <span>订单</span>
+        <span>仓库</span>
       </template>
-      <el-menu-item index="/order/order_list">
+      <el-menu-item index="/ware/ware_list">
         <el-icon><WindPower /></el-icon>
-        订单列表
+        仓库
       </el-menu-item>
-      <el-menu-item index="/order/order_offline">
+      <el-menu-item index="/ware/stock">
         <el-icon><WindPower /></el-icon>
-        订单列表
+        库存
       </el-menu-item>
     </el-sub-menu>
-    <el-menu-item
-      index="/media"
-    >
-      <el-icon><document /></el-icon>
-      <span>媒体</span>
-    </el-menu-item>
     <el-sub-menu index="/permission">
       <template #title>
         <el-icon><Folder /></el-icon>

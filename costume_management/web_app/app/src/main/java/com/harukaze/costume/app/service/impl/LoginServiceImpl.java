@@ -3,6 +3,7 @@ package com.harukaze.costume.app.service.impl;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.harukaze.costume.app.entity.UserEntity;
@@ -24,6 +25,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -65,7 +68,11 @@ public class LoginServiceImpl implements LoginService {
             e.printStackTrace();
         }
 
-        return R.ok().put("key", key).put("imgCode", "data:image/jpeg;base64," + Base64.encode(os.toByteArray()));
+        Map<String, String> map = new HashMap<>();
+        map.put("imgCode", "data:image/jpeg;base64," + Base64.encode(os.toByteArray()));
+        map.put("key", key);
+
+        return R.ok().put("data", map);
     }
 
     @Override
@@ -94,7 +101,11 @@ public class LoginServiceImpl implements LoginService {
         // 将验证码信息从 rides 删除
         redisUtil.del("captcha_"+loginParam.getKey());
 
-        return R.ok("登录成功").put("token", token).put("user_info", userService.toVo(user));
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", token);
+        map.put("user_info", userService.toVo(user));
+
+        return R.ok("登录成功").put("data", map);
     }
 
     @Override

@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import { viteMockServe } from 'vite-plugin-mock'
+// import { viteMockServe } from 'vite-plugin-mock'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 const path = require('path')
 
@@ -9,9 +9,9 @@ const path = require('path')
 export default defineConfig({
   plugins: [
     vue(),
-    vueJsx({
-      // 配置选项
-    }),
+    // vueJsx({
+    //   // 配置选项
+    // }),
     // viteMockServe({
     //   mockPath: 'src/mock', // 解析，路径可根据实际变动
     //   localEnabled: true // 此处可以手动设置为true，也可以根据官方文档格式

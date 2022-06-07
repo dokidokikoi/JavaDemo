@@ -11,9 +11,8 @@ package com.harukaze.costume.common.constant;
 public class UserConstant {
 
     public enum Status {
-        NEW_USER(0, "新建"),
-        USER_UP(1, "用户激活"),
-        USER_DOWN(2, "用户冻结");
+        USER_UP(0, "用户激活"),
+        USER_DOWN(1, "用户冻结");
 
         private int code;
         private String msg;

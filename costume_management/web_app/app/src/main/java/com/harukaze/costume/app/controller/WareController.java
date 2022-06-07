@@ -3,12 +3,9 @@ package com.harukaze.costume.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.harukaze.costume.app.vo.WareVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.harukaze.costume.app.entity.WareEntity;
 import com.harukaze.costume.app.service.WareService;
@@ -33,20 +30,20 @@ public class WareController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = wareService.queryPage(params);
+        PageUtils page = wareService.listWarePage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		WareEntity ware = wareService.getById(id);
+		WareVo ware = wareService.getWareById(id);
 
         return R.ok().put("ware", ware);
     }
@@ -54,9 +51,9 @@ public class WareController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody WareEntity ware){
-		wareService.save(ware);
+    @PostMapping("/save")
+    public R save(WareEntity ware){
+		wareService.saveWare(ware);
 
         return R.ok();
     }
@@ -64,8 +61,8 @@ public class WareController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody WareEntity ware){
+    @PutMapping("/update")
+    public R update(WareEntity ware){
 		wareService.updateById(ware);
 
         return R.ok();

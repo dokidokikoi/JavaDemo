@@ -3,7 +3,11 @@ package com.harukaze.costume.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.harukaze.costume.app.vo.WareGoodsVo;
+import com.harukaze.costume.common.valid.AddGroup;
+import com.harukaze.costume.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +39,9 @@ public class WareGoodsController {
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = wareGoodsService.queryPage(params);
+        PageUtils page = wareGoodsService.queryWareGoodsPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
@@ -46,27 +50,27 @@ public class WareGoodsController {
      */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		WareGoodsEntity wareGoods = wareGoodsService.getById(id);
+        WareGoodsVo wareGoods = wareGoodsService.getWareGoodsById(id);
 
-        return R.ok().put("wareGoods", wareGoods);
+        return R.ok().put("data", wareGoods);
     }
 
     /**
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody WareGoodsEntity wareGoods){
-		wareGoodsService.save(wareGoods);
+    public R save(@Validated(AddGroup.class) WareGoodsEntity wareGoods){
+		wareGoodsService.saveWareGoods(wareGoods);
 
         return R.ok();
     }
 
     /**
-     * 修改
+     * 出入库
      */
     @RequestMapping("/update")
-    public R update(@RequestBody WareGoodsEntity wareGoods){
-		wareGoodsService.updateById(wareGoods);
+    public R update(@RequestParam  Map<String, Object> params){
+		wareGoodsService.updateWareGoodsById(params);
 
         return R.ok();
     }
@@ -74,11 +78,11 @@ public class WareGoodsController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		wareGoodsService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
-    }
+//    @RequestMapping("/delete")
+//    public R delete(@RequestBody Long[] ids){
+//		wareGoodsService.removeByIds(Arrays.asList(ids));
+//
+//        return R.ok();
+//    }
 
 }

@@ -4,6 +4,7 @@
     <Breadcrumb />
   </el-space>
   <el-space size="large">
+    <MenuSearch />
     <FullScreen />
     <UserInfo />
   </el-space>
@@ -13,6 +14,7 @@
 import ToggleSidebar from './ToggleSidebar.vue'
 import Breadcrumb from './Breadcrumb.vue'
 
+import MenuSearch from './MenuSearch.vue'
 import FullScreen from './FullScreen.vue'
 import UserInfo from './UserInfo.vue'
 

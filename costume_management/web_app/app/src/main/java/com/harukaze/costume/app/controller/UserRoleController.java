@@ -33,23 +33,23 @@ public class UserRoleController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = userRoleService.queryPage(params);
-
-        return R.ok().put("page", page);
-    }
+//    @RequestMapping("/list")
+//    public R list(@RequestParam Map<String, Object> params){
+//        PageUtils page = userRoleService.queryPage(params);
+//
+//        return R.ok().put("page", page);
+//    }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{roleId}")
-    public R info(@PathVariable("roleId") Long roleId){
-		UserRoleEntity userRole = userRoleService.getById(roleId);
-
-        return R.ok().put("userRole", userRole);
-    }
+//    @RequestMapping("/info/{roleId}")
+//    public R info(@PathVariable("roleId") Long roleId){
+//		UserRoleEntity userRole = userRoleService.getById(roleId);
+//
+//        return R.ok().put("userRole", userRole);
+//    }
 
     /**
      * 保存
@@ -64,19 +64,19 @@ public class UserRoleController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody UserRoleEntity userRole){
-		userRoleService.updateById(userRole);
-
-        return R.ok();
-    }
+//    @RequestMapping("/update")
+//    public R update(@RequestBody UserRoleEntity userRole){
+//		userRoleService.updateById(userRole);
+//
+//        return R.ok();
+//    }
 
     /**
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] roleIds){
-		userRoleService.removeByIds(Arrays.asList(roleIds));
+    public R delete(@RequestBody Map<String, Object> params){
+		userRoleService.removeUserRole(params);
 
         return R.ok();
     }

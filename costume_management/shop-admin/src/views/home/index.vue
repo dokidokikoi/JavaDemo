@@ -4,9 +4,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-
-const list = ref<ILoginInfo['slide']>([])
 
 // const mark = import.meta.env.VITE_APP_TITLE
 </script>

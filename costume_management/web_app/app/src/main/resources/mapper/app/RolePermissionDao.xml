@@ -9,5 +9,9 @@
         <result property="permissionId" column="permission_id"/>
     </resultMap>
 
-
+    <select id="selectPermissionList" resultType="PermissionEntity">
+        SELECT p.id, p.path, p.name
+        FROM hk_permission p, hk_role_permission rp
+        WHERE #{roleId} = rp.role_id AND rp.permission_id = p.id
+    </select>
 </mapper>

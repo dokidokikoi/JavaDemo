@@ -19,5 +19,15 @@ public interface UserService extends IService<UserEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     UserVo toVo(UserEntity user);
+
+    PageUtils listUserPage(Map<String, Object> params);
+
+    UserVo getUserById(Long id);
+
+    void setStateByIds(Map<String, Object> param) throws Exception;
+
+    void updateUserById(UserEntity user);
+
+    void saveUser(UserEntity user);
 }
 

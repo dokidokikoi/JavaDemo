@@ -1,11 +1,18 @@
 package com.harukaze.costume.app.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.harukaze.costume.common.valid.AddGroup;
+import com.harukaze.costume.common.valid.UpdateGroup;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 
@@ -22,19 +29,23 @@ public class UserEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
+	@NotNull(message = "修改，id不能为空", groups = UpdateGroup.class)
 	private Long id;
 	/**
 	 * 账号名
 	 */
+	@NotBlank(message = "新增，account不能为空", groups = AddGroup.class)
 	private String account;
 	/**
 	 * 密码
 	 */
+	@NotBlank(message = "新增，password不能为空", groups = AddGroup.class)
 	private String password;
 	/**
 	 * 昵称
 	 */
+	@NotBlank(message = "新增，nickname不能为空", groups = AddGroup.class)
 	private String nickname;
 	/**
 	 * 创建时间

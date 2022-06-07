@@ -1,6 +1,11 @@
 package com.harukaze.costume.app.vo;
 
+import com.harukaze.costume.app.entity.PermissionEntity;
+import com.harukaze.costume.app.entity.RoleEntity;
 import lombok.Data;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @PackageName: com.harukaze.costume.app.vo
@@ -26,4 +31,8 @@ public class UserVo {
      */
     private Long createDate;
     private Integer state;
+
+    private List<PermissionEntity> permissions;
+
+    private List<RoleEntity> roles;
 }

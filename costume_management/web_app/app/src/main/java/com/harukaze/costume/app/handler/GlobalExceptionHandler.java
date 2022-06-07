@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Author: doki
  * @Date: 2022/6/2 9:34
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)

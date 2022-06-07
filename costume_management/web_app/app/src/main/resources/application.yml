@@ -13,8 +13,8 @@ spring:
     host: 127.0.0.1
 
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**Dao.xml
+  mapper-locations: classpath:/mapper/**/*Dao.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  type-aliases-package: com.harukaze.front.entity
+  type-aliases-package: com.harukaze.costume.app.entity
 

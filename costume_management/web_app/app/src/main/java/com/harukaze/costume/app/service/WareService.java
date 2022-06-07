@@ -1,6 +1,7 @@
 package com.harukaze.costume.app.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.harukaze.costume.app.vo.WareVo;
 import com.harukaze.costume.common.utils.PageUtils;
 import com.harukaze.costume.app.entity.WareEntity;
 
@@ -16,5 +17,11 @@ import java.util.Map;
 public interface WareService extends IService<WareEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils listWarePage(Map<String, Object> params);
+
+    WareVo getWareById(Long id);
+
+    void saveWare(WareEntity ware);
 }
 

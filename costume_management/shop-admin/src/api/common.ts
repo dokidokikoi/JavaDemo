@@ -28,7 +28,7 @@ export const login = (data: {
   code: string
 }) => {
   return request({
-    method: 'Post',
+    method: 'POST',
     url: 'login',
     data
   })
@@ -39,7 +39,7 @@ export const getCaptcha = () => {
     method: 'GET',
     url: 'login/captcha',
     params: {
-      stamp: Date.now()
+      time: Date.now()
     }
   })
 }

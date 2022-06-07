@@ -33,23 +33,23 @@ public class RolePermissionController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = rolePermissionService.queryPage(params);
-
-        return R.ok().put("page", page);
-    }
+//    @RequestMapping("/list")
+//    public R list(@RequestParam Map<String, Object> params){
+//        PageUtils page = rolePermissionService.queryPage(params);
+//
+//        return R.ok().put("page", page);
+//    }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{roleId}")
-    public R info(@PathVariable("roleId") Long roleId){
-		RolePermissionEntity rolePermission = rolePermissionService.getById(roleId);
-
-        return R.ok().put("rolePermission", rolePermission);
-    }
+//    @RequestMapping("/info/{roleId}")
+//    public R info(@PathVariable("roleId") Long roleId){
+//		RolePermissionEntity rolePermission = rolePermissionService.getById(roleId);
+//
+//        return R.ok().put("rolePermission", rolePermission);
+//    }
 
     /**
      * 保存
@@ -64,19 +64,19 @@ public class RolePermissionController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody RolePermissionEntity rolePermission){
-		rolePermissionService.updateById(rolePermission);
-
-        return R.ok();
-    }
+//    @RequestMapping("/update")
+//    public R update(@RequestBody RolePermissionEntity rolePermission){
+//		rolePermissionService.updateById(rolePermission);
+//
+//        return R.ok();
+//    }
 
     /**
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] roleIds){
-		rolePermissionService.removeByIds(Arrays.asList(roleIds));
+    public R delete(@RequestBody Map<String, Object> params){
+		rolePermissionService.removeRolePermission(params);
 
         return R.ok();
     }

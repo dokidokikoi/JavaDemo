@@ -5,14 +5,14 @@
     background
     layout="total, sizes, prev, pager, next, jumper"
     :total="listCount"
-    :page-sizes="[10, 20, 30, 40, 50, 100]"
+    :page-sizes="[5,10]"
     @current-change="handleCurrentChange"
     @size-change="handleSizeChange"
   />
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from '@vue/runtime-core'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   page: { // 页码

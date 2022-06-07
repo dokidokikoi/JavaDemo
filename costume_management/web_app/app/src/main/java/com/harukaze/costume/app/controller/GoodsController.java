@@ -1,10 +1,18 @@
 package com.harukaze.costume.app.controller;
 
+import com.harukaze.costume.app.core.annotation.HasPartPermission;
+import com.harukaze.costume.app.core.annotation.HasPermission;
+import com.harukaze.costume.app.core.annotation.HasRole;
 import com.harukaze.costume.app.entity.GoodsEntity;
+import com.harukaze.costume.app.param.GoodsParam;
 import com.harukaze.costume.app.service.GoodsService;
+import com.harukaze.costume.app.vo.GoodsVo;
 import com.harukaze.costume.common.utils.PageUtils;
 import com.harukaze.costume.common.utils.R;
+import com.harukaze.costume.common.valid.AddGroup;
+import com.harukaze.costume.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -27,30 +35,30 @@ public class GoodsController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = goodsService.queryPage(params);
+    @GetMapping("/list")
+    public R list(GoodsParam params){
+        PageUtils page = goodsService.listGoodsPage(params);
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", page);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		GoodsEntity goods = goodsService.getById(id);
+        GoodsVo goods = goodsService.getGoodsById(id);
 
-        return R.ok().put("goods", goods);
+        return R.ok().put("data", goods);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody GoodsEntity goods){
-		goodsService.save(goods);
+    @PostMapping("/save")
+    public R save(@Validated(AddGroup.class) GoodsEntity goods) throws Exception {
+		goodsService.saveGoods(goods);
 
         return R.ok();
     }
@@ -58,9 +66,9 @@ public class GoodsController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody GoodsEntity goods){
-		goodsService.updateById(goods);
+    @PutMapping("/update")
+    public R update(@Validated(UpdateGroup.class) GoodsEntity goods){
+		goodsService.updateGoodsById(goods);
 
         return R.ok();
     }
@@ -68,9 +76,9 @@ public class GoodsController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		goodsService.removeByIds(Arrays.asList(ids));
+    @PostMapping("/set_state")
+    public R delete(@RequestParam("id") Long id, @RequestParam("state") Integer state) throws Exception {
+		goodsService.setStateByIds(id, state);
 
         return R.ok();
     }

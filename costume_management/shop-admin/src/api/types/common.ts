@@ -1,3 +1,6 @@
+import { IPermission } from './permission'
+import { IRole } from './role'
+
 export interface ILoginInfo {
   logo_square: string
   logo_rectangle: string
@@ -17,4 +20,14 @@ export interface IUserInfo {
   nickname: string
   createDate: string
   state: string
+  permissions: IPermission[]
+  roles: IRole[]
+}
+
+export interface IPage<T> {
+  currPage: number
+  list: T[]
+  pageSize: number
+  totalCount: number
+  totalPage: number
 }
