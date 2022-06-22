@@ -1,6 +1,7 @@
 package com.harukaze.costume.app.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.harukaze.costume.app.param.RoleParam;
 import com.harukaze.costume.app.vo.RoleVo;
 import com.harukaze.costume.common.utils.PageUtils;
 import com.harukaze.costume.app.entity.RoleEntity;
@@ -23,5 +24,13 @@ public interface RoleService extends IService<RoleEntity> {
     RoleVo getRoleById(Long id);
 
     void setStateByIds(Map<String, Object> params);
+
+    void saveRole(RoleEntity role);
+
+    void updateRole(RoleParam param);
+
+    void setPermission(Long id, Long[] ids);
+
+    boolean removeRoleById(Long id);
 }
 

@@ -3,9 +3,11 @@ package com.harukaze.costume.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.harukaze.costume.app.core.annotation.HasPartPermission;
 import com.harukaze.costume.app.core.annotation.HasPartRole;
 import com.harukaze.costume.app.vo.UserVo;
+import com.harukaze.costume.common.constant.UserConstant;
 import com.harukaze.costume.common.valid.AddGroup;
 import com.harukaze.costume.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,7 @@ public class UserController {
      * 列表
      */
     @GetMapping("/list")
-    public R list(@RequestBody Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = userService.listUserPage(params);
 
         return R.ok().put("data", page);
@@ -67,7 +69,6 @@ public class UserController {
      * 修改
      */
     @PutMapping("/update")
-    @HasPartRole("test")
     public R update(@Validated(UpdateGroup.class) @RequestBody UserEntity user){
 		userService.updateUserById(user);
 
@@ -75,11 +76,25 @@ public class UserController {
     }
 
     /**
-     * 批量修改用户状态
+     * 修改用户状态
      */
     @PutMapping("/set_state")
-    public R delete(@RequestBody Map<String, Object> param) throws Exception {
-		userService.setStateByIds(param);
+    public R setState(Long id, boolean flag){
+        userService.update(null,
+                new LambdaUpdateWrapper<UserEntity>()
+                        .eq(UserEntity::getId, id)
+                        .set(UserEntity::getState, flag ?
+                                UserConstant.Status.USER_UP.getCode() : UserConstant.Status.USER_DOWN.getCode()));
+
+        return R.ok();
+    }
+
+    /**
+     * 分配角色
+     */
+    @PutMapping("/set_role/{id}")
+    public R setRole(@PathVariable("id") Long id, @RequestBody Long[] ids){
+        userService.setRoles(id, ids);
 
         return R.ok();
     }

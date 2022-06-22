@@ -3,6 +3,7 @@ package com.harukaze.costume.app.controller;
 import com.harukaze.costume.app.core.annotation.HasPartPermission;
 import com.harukaze.costume.app.core.annotation.HasPermission;
 import com.harukaze.costume.app.core.annotation.HasRole;
+import com.harukaze.costume.app.core.annotation.LogAnnotation;
 import com.harukaze.costume.app.entity.GoodsEntity;
 import com.harukaze.costume.app.param.GoodsParam;
 import com.harukaze.costume.app.service.GoodsService;
@@ -56,6 +57,7 @@ public class GoodsController {
     /**
      * 保存
      */
+    @LogAnnotation(module = "商品", operator = "添加商品")
     @PostMapping("/save")
     public R save(@Validated(AddGroup.class) GoodsEntity goods) throws Exception {
 		goodsService.saveGoods(goods);
@@ -66,6 +68,7 @@ public class GoodsController {
     /**
      * 修改
      */
+    @LogAnnotation(module = "商品", operator = "修改商品")
     @PutMapping("/update")
     public R update(@Validated(UpdateGroup.class) GoodsEntity goods){
 		goodsService.updateGoodsById(goods);
@@ -76,6 +79,7 @@ public class GoodsController {
     /**
      * 删除
      */
+    @LogAnnotation(module = "商品", operator = "修改商品状态")
     @PostMapping("/set_state")
     public R delete(@RequestParam("id") Long id, @RequestParam("state") Integer state) throws Exception {
 		goodsService.setStateByIds(id, state);

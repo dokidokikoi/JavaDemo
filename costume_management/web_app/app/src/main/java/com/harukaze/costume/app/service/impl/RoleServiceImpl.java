@@ -4,8 +4,12 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.harukaze.costume.app.entity.PermissionEntity;
+import com.harukaze.costume.app.entity.RolePermissionEntity;
+import com.harukaze.costume.app.entity.UserRoleEntity;
+import com.harukaze.costume.app.param.RoleParam;
 import com.harukaze.costume.app.service.PermissionService;
 import com.harukaze.costume.app.service.RolePermissionService;
+import com.harukaze.costume.app.service.UserRoleService;
 import com.harukaze.costume.app.vo.RoleVo;
 import com.harukaze.costume.app.vo.UserVo;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +36,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
 
     @Autowired
     private RolePermissionService rolePermissionService;
+
+    @Autowired
+    private PermissionService permissionService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -90,6 +100,64 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, RoleEntity> implements
                             new LambdaUpdateWrapper<RoleEntity>()
                                     .in(RoleEntity::getId,ids));
         }
+    }
+
+    @Override
+    public void saveRole(RoleEntity role) {
+        role.setId(null);
+        this.save(role);
+    }
+
+    @Override
+    public void updateRole(RoleParam param) {
+        if (param.getId() == null || param.getId() <= 0) {
+            return;
+        }
+        RoleEntity roleEntity = new RoleEntity();
+        BeanUtils.copyProperties(param, roleEntity);
+
+        // 更新 role
+        this.updateById(roleEntity);
+    }
+
+    @Override
+    public void setPermission(Long id, Long[] ids) {
+        List<Long> list = permissionService.list().stream()
+                .map(PermissionEntity::getId)
+                .collect(Collectors.toList());
+
+        // 先删除角色所有权限
+        rolePermissionService.remove(
+                new LambdaQueryWrapper<RolePermissionEntity>()
+                        .eq(RolePermissionEntity::getRoleId, id));
+
+        // 添加权限
+        for (Long item : ids) {
+            if (list.contains(item)) {
+                RolePermissionEntity rolePermissionEntity = new RolePermissionEntity();
+                rolePermissionEntity.setRoleId(id);
+                rolePermissionEntity.setPermissionId(item);
+                rolePermissionService.save(rolePermissionEntity);
+            }
+        }
+    }
+
+    @Override
+    public boolean removeRoleById(Long id) {
+        List<RolePermissionEntity> list = rolePermissionService.list(
+                new LambdaQueryWrapper<RolePermissionEntity>()
+                        .eq(RolePermissionEntity::getRoleId, id));
+        if (list == null || list.size() == 0) {
+            List<UserRoleEntity> list1 = userRoleService.list(
+                    new LambdaQueryWrapper<UserRoleEntity>()
+                            .eq(UserRoleEntity::getRoleId, id));
+            if (list1 == null || list1.size() == 0) {
+                this.removeById(id);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private RoleVo toVo(RoleEntity roleEntity) {

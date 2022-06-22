@@ -50,3 +50,11 @@ export const logout = () => {
     url: 'logout'
   })
 }
+
+export const changePass = (data: any) => {
+  return request({
+    method: 'POST',
+    url: 'changePwd',
+    data
+  })
+}

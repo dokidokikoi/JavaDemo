@@ -192,19 +192,19 @@ const checkIn = async (row: any) => {
 }
 
 const checkOut = async (row: any) => {
-  isCheckIn.value = row.id
+  isCheckOut.value = row.id
   const params = {
     type: 'checkOut',
     id: row.id,
     num: row.num
   }
   const data = await wareApi.updateStock(params).finally(() => {
-    isCheckIn.value = '0'
+    isCheckOut.value = '0'
     loadList()
   })
 
   if (data.code === 200) {
-    ElMessage.success('入库成功')
+    ElMessage.success('出库成功')
   }
 }
 

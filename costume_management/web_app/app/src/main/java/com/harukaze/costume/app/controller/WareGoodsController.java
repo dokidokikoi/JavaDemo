@@ -3,6 +3,7 @@ package com.harukaze.costume.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.harukaze.costume.app.core.annotation.LogAnnotation;
 import com.harukaze.costume.app.vo.WareGoodsVo;
 import com.harukaze.costume.common.valid.AddGroup;
 import com.harukaze.costume.common.valid.UpdateGroup;
@@ -56,8 +57,9 @@ public class WareGoodsController {
     }
 
     /**
-     * 保存
+     * 将商品加入仓库
      */
+    @LogAnnotation(module = "仓库模块", operator = "加入仓库")
     @RequestMapping("/save")
     public R save(@Validated(AddGroup.class) WareGoodsEntity wareGoods){
 		wareGoodsService.saveWareGoods(wareGoods);
@@ -68,6 +70,7 @@ public class WareGoodsController {
     /**
      * 出入库
      */
+    @LogAnnotation(module = "仓库模块", operator = "出入库")
     @RequestMapping("/update")
     public R update(@RequestParam  Map<String, Object> params){
 		wareGoodsService.updateWareGoodsById(params);

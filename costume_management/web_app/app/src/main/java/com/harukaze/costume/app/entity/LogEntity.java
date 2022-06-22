@@ -58,4 +58,6 @@ public class LogEntity implements Serializable {
 	 */
 	private Long goodsId;
 
+	private Long WareId;
+
 }

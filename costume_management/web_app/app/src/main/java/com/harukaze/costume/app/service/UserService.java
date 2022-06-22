@@ -29,5 +29,7 @@ public interface UserService extends IService<UserEntity> {
     void updateUserById(UserEntity user);
 
     void saveUser(UserEntity user);
+
+    void setRoles(Long id, Long[] ids);
 }
 

@@ -1,8 +1,10 @@
 package com.harukaze.costume.app.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.harukaze.costume.app.vo.PermissionVo;
 import com.harukaze.costume.common.valid.AddGroup;
 import com.harukaze.costume.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,13 @@ public class PermissionController {
         return R.ok().put("data", page);
     }
 
+
+    @GetMapping("/permission_tree")
+    public R getTree() {
+        List<PermissionVo> permissionTree = permissionService.getPermissionTree();
+
+        return R.ok().put("data", permissionTree);
+    }
 
     /**
      * 信息

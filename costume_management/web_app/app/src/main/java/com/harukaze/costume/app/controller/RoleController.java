@@ -3,10 +3,11 @@ package com.harukaze.costume.app.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.harukaze.costume.app.param.RoleParam;
 import com.harukaze.costume.app.vo.RoleVo;
 import com.harukaze.costume.common.valid.AddGroup;
 import com.harukaze.costume.common.valid.UpdateGroup;
-import org.apache.ibatis.annotations.Update;
+import com.harukaze.costume.common.constant.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class RoleController {
      * 列表
      */
     @GetMapping("/list")
-    public R list(@RequestBody Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params){
         PageUtils page = roleService.listRolePage(params);
 
         return R.ok().put("data", page);
@@ -57,7 +58,7 @@ public class RoleController {
      */
     @PostMapping("/save")
     public R save(@Validated(AddGroup.class) @RequestBody RoleEntity role){
-		roleService.save(role);
+		roleService.saveRole(role);
 
         return R.ok();
     }
@@ -66,8 +67,18 @@ public class RoleController {
      * 修改
      */
     @PutMapping("/update")
-    public R update(@Validated(UpdateGroup.class) @RequestBody RoleEntity role){
-		roleService.updateById(role);
+    public R update(@Validated(UpdateGroup.class) @RequestBody RoleParam param){
+		roleService.updateRole(param);
+
+        return R.ok();
+    }
+
+    /**
+     * 分配权限
+     */
+    @PutMapping("/set_permission/{id}")
+    public R setPermission(@PathVariable("id") Long id, @RequestBody Long[] ids){
+        roleService.setPermission(id, ids);
 
         return R.ok();
     }
@@ -75,11 +86,11 @@ public class RoleController {
     /**
      * 删除
      */
-    @PostMapping("/set_state")
-    public R delete(@RequestBody Map<String, Object> params){
-		roleService.setStateByIds(params);
+    @DeleteMapping("/delete/{id}")
+    public R delete(@PathVariable("id") Long id){
+        boolean flag = roleService.removeRoleById(id);
 
-        return R.ok();
+        return flag ? R.ok() : R.error(ResponseStatus.ROLE_DELETE_ERR.getCode(), ResponseStatus.ROLE_DELETE_ERR.getMsg());
     }
 
 }

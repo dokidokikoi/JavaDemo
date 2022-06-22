@@ -114,4 +114,27 @@ public class LoginServiceImpl implements LoginService {
         redisUtil.del("token_"+request.getHeader(JwtUtils.getHeader()));
         return R.ok();
     }
+
+    @Override
+    public boolean changePass(Map<String, Object> params) {
+        Long id = 0L;
+       try {
+           id = Long.parseLong(params.get("id").toString());
+       } catch (Exception e) {
+           return false;
+       }
+
+       String password = (String) params.get("password");
+       String newPassword = (String) params.get("newPassword");
+
+       if (UserThreadLocal.get() != null && UserThreadLocal.get().getId().equals(id)) {
+           UserEntity byId = userService.getById(id);
+           if (passwordEncoder.matches(password, byId.getPassword())) {
+               byId.setPassword(passwordEncoder.encode(newPassword));
+               userService.updateById(byId);
+               return true;
+           }
+       }
+       return false;
+    }
 }

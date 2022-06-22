@@ -104,17 +104,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, GoodsEntity> impleme
 
     @Override
     public void saveGoods(GoodsEntity goods) throws Exception {
-        GoodsEntity goodsEntity = new GoodsEntity();
-        BeanUtils.copyProperties(goods, goodsEntity);
-
-        goodsEntity.setId(null);
+        goods.setId(null);
         if (goods.getPrice() <= 0) {
             throw new Exception("bad request");
         }
-        goodsEntity.setCreateDate(System.currentTimeMillis());
-        goodsEntity.setUserId(UserThreadLocal.get().getId());
+        goods.setCreateDate(System.currentTimeMillis());
+        goods.setUserId(UserThreadLocal.get().getId());
 
-        this.save(goodsEntity);
+        this.save(goods);
     }
 
     @Override

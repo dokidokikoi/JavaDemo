@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @PackageName: com.harukaze.costume.app.controller
@@ -37,5 +38,12 @@ public class LoginController {
     public R logout(HttpServletRequest request) {
         System.out.println("hello");
         return loginService.logout(request);
+    }
+
+    @PostMapping("changePwd")
+    public R changePass(@RequestBody Map<String, Object> params) {
+        boolean flag = loginService.changePass(params);
+
+        return flag ? R.ok() : R.error(10001, "密码错误");
     }
 }

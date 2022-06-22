@@ -298,6 +298,7 @@ const saveGoods = async () => {
   })
   if (data.code === 200) {
     ElMessage.success('保存成功')
+    loadList()
   }
 }
 
@@ -367,7 +368,7 @@ const loadWareList = async () => {
   listCount.value = data.totalCount
 }
 
-const showCheckInDialog = (row) => {
+const showCheckInDialog = (row: any) => {
   checkIndialogTableVisible.value = true
   loadWareList()
   wareParam.goodsId = row.id

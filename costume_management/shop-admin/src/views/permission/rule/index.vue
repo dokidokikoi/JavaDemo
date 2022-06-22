@@ -56,7 +56,9 @@
           min-width="150"
         >
           <template #default="{ row }">
-            <el-button>
+            <el-button
+              @click="editRule(row)"
+            >
               编辑
             </el-button>
           </template>
@@ -71,7 +73,24 @@
       />
     </app-card>
 
-    <update-dialog v-model="dialogTableVisible" />
+    <app-dialog-form
+      :confirm="isUpdate ? handleUpdate : handleAdd"
+      v-model="dialogTableVisible"
+      @close="handleClose"
+    >
+      <el-form
+        :model="ruleParam"
+        :rules="formRules"
+        ref="form"
+      >
+        <el-form-item
+          prop="name"
+          label="权限名"
+        >
+          <el-input v-model="ruleParam.name" />
+        </el-form-item>
+      </el-form>
+    </app-dialog-form>
   </page-container>
 </template>
 
@@ -82,7 +101,6 @@ import { ElMessage } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import * as permissionApi from '@/api/permission'
 import { IPermission } from '@/api/types/permission'
-import UpdateDialog from './components/UpdateDialog.vue'
 
 const listLoading = ref(false)
 const permissionList = ref<IPermission[]>([])
@@ -92,9 +110,17 @@ const listParam = reactive({
   page: 1
 })
 
+const ruleParam = reactive({
+  id: '',
+  path: '',
+  name: '',
+  menuId: ''
+})
+
 const listCount = ref(0)
 
 const dialogTableVisible = ref(false)
+const isUpdate = ref(false)
 
 onMounted(() => {
   loadList()
@@ -108,6 +134,64 @@ const loadList = async () => {
   permissionList.value = data.list
   listCount.value = data.totalCount
 }
+
+const form = ref<IElForm | null>(null)
+const formRules = reactive({
+  name: [
+    { required: true, message: '请输入权限名', trigger: 'blur' }
+  ]
+})
+
+const handleAdd = async () => {
+  // 表单验证
+  const valid = await form.value?.validate()
+  if (!valid) {
+    return false
+  }
+
+  const data = await permissionApi.addPermission(ruleParam).finally(() => {
+    dialogTableVisible.value = false
+  })
+
+  if (data.code === 200) {
+    ElMessage.success('新增成功')
+  }
+}
+
+const editRule = (row: IPermission) => {
+  ruleParam.id = row.id
+  ruleParam.name = row.name
+  ruleParam.path = row.path
+
+  isUpdate.value = true
+  dialogTableVisible.value = true
+}
+
+const handleUpdate = async () => {
+  // 表单验证
+  const valid = await form.value?.validate()
+  if (!valid) {
+    return false
+  }
+
+  const data = await permissionApi.editPermission(ruleParam).finally(() => {
+    dialogTableVisible.value = false
+  })
+
+  if (data.code === 200) {
+    ElMessage.success('更新成功')
+  }
+}
+
+const handleClose = () => {
+  ruleParam.id = ''
+  ruleParam.menuId = ''
+  ruleParam.name = ''
+  ruleParam.path = ''
+
+  isUpdate.value = false
+}
+
 </script>
 
 <style lang='scss' scoped>

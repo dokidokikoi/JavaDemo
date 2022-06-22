@@ -42,4 +42,6 @@ public class PermissionEntity implements Serializable {
 	@NotBlank(message = "新增,name不能为空", groups = AddGroup.class)
 	private String name;
 
+	private Long menuId;
+
 }

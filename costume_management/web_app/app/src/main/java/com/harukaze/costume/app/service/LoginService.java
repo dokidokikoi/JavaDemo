@@ -4,6 +4,7 @@ import com.harukaze.costume.app.param.LoginParam;
 import com.harukaze.costume.common.utils.R;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 public interface LoginService {
 
@@ -12,4 +13,6 @@ public interface LoginService {
     R login(LoginParam loginParam);
 
     R logout(HttpServletRequest request);
+
+    boolean changePass(Map<String, Object> params);
 }

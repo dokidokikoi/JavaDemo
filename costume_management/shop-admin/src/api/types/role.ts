@@ -4,5 +4,18 @@ export interface IRole {
   id: string
   roleName: string
   roleDesc: string
-  permission: IPermission
+}
+
+export interface IRoleVo {
+  id: string
+  roleName: string
+  roleDesc: string
+  permissions: IPermission[]
+}
+
+export interface IRoleParam {
+  id: string
+  roleName: string
+  roleDesc: string
+  permission: string[]
 }

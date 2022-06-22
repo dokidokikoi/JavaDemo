@@ -11,7 +11,8 @@ package com.harukaze.costume.common.constant;
 public enum  ResponseStatus {
     LOGIN_EXPIRE(41000, "登录已过期"),
     NOT_LOGIN(40000, "未登录"),
-    USER_NOT_FIND(42000, "用户不存在");
+    USER_NOT_FIND(42000, "用户不存在"),
+    ROLE_DELETE_ERR(46000, "角色下存在权限或用户");
 
     private Integer code;
     private String msg;

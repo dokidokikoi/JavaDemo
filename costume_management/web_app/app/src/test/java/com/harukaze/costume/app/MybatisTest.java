@@ -104,9 +104,11 @@ public class MybatisTest {
 
     @Test
     public void testDeleteUserRole() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("roleId", "4");
-        map.put("userId", "4");
-        userRoleService.removeUserRole(map);
+        String str1 = "hello";
+
+        String str2 = "hell" + new String("o");
+        str2 = str2.intern();
+
+        System.out.println(str1 == str2);
     }
 }

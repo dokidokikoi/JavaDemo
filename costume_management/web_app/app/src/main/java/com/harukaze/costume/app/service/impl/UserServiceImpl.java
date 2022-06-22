@@ -26,6 +26,7 @@ import com.harukaze.costume.common.utils.PageUtils;
 import com.harukaze.costume.common.utils.Query;
 
 import com.harukaze.costume.app.dao.UserDao;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service("userService")
@@ -155,6 +156,27 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         userEntity.setState(UserConstant.Status.USER_UP.getCode());
 
         this.save(userEntity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void setRoles(Long id, Long[] ids) {
+        userRoleService.remove(
+                new LambdaQueryWrapper<UserRoleEntity>()
+                        .eq(UserRoleEntity::getUserId, id));
+
+        List<Long> collect = roleService.list().stream()
+                .map(RoleEntity::getId)
+                .collect(Collectors.toList());
+
+        for (Long aLong : ids) {
+            if (collect.contains(aLong)) {
+                UserRoleEntity userRoleEntity = new UserRoleEntity();
+                userRoleEntity.setUserId(id);
+                userRoleEntity.setRoleId(aLong);
+                userRoleService.save(userRoleEntity);
+            }
+        }
     }
 
 }

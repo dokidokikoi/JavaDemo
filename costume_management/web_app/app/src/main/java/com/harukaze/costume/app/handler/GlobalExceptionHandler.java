@@ -2,6 +2,7 @@ package com.harukaze.costume.app.handler;
 
 import com.harukaze.costume.app.handler.excepion.NotLoginException;
 import com.harukaze.costume.common.utils.R;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,13 @@ import javax.servlet.http.HttpServletResponse;
  * @Author: doki
  * @Date: 2022/6/2 9:34
  */
-//@RestControllerAdvice
+@Slf4j
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public R exceptionHandler(Exception e) {
+        log.error("{}", e);
         return R.error(HttpStatus.SC_BAD_REQUEST, e.getMessage());
     }
 
